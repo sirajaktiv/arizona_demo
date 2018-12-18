@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<template id="dashboard_view_template" xml:space="preserve">
+    <t t-name="project_details_dashboard">
+        <div class="o_content border_css">
+            <div class="o_view_manager_content">
+                <div class="row o_project_details row_css">
+                    <div class="col-lg-6 col-sm-12 col-xs-12">
+                        <div class="project_form_view">
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-12 col-xs-12">
+                        <h2>Project Complete</h2>
+                        <div class="row">
+                            <div class="col-lg-5 col-xs-12 pull-left">
+                                 <div class="chart-note mr-0 d-block">
+                                    <span class="dot dot--lately"></span>
+                                    <b>Lately Completed Task</b>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-xs-12 pull-right">
+                                <div class="chart-note mr-0 d-block">
+                                    <span class="dot dot--not_start"></span>
+                                    <b class="text-center">Not Started Task</b>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="myProgress" style="width:100%;height: 30px;background-color: blue;margin-top:10px;">
+                            <div id="myBar" style="height: 30px;background-color: #4CAF50;float:left">
+                            </div>
+                            <div id="myBar2" style="height: 30px;background-color: #E4E4E4;float:right">
+                            </div>
+                        </div>
+                        <div class="panel" style="height:300px;">
+                            <div class="panel-body" style="width:500px;">
+                                <canvas id="progress_pie_chart"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row_css">
+                    <div class="col-lg-6 col-sm-12 col-xs-12 cost_cls">
+                        <h2>Cost:</h2>
+                        <div class="chart-note-wrap">
+                            
+                        </div>
+                        <div class="project_cost_details" style="margin-top:30px;">
+                            <div class="percent-chart">
+                                <canvas id="percent-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-12 col-xs-12">
+                        <h2>Progress</h2>
+                        <div class="stage_progress">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="row row_css">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <h2>Resources</h2>
+                        <div class="timesheet_recs">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="row row_css">
+                    <div class="col-xs-12">
+                        <div class="issues-and-risk">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="project_form_details">
+        <h2>Project Summary (Passport)</h2>
+        <table class="table table-striped">
+            <tr>
+                <td>
+                    <b>Project Manager</b>
+                </td>
+                <td class="text-right">
+                    <p><t t-esc="widget['user_id']"/></p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Progress</b>
+                </td>
+                <td class="text-right">
+                    <p><t t-esc="widget['progress_total']"/><span t-if="widget['progress_total']">%</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Budget</b>
+                </td>
+                <td class="text-right">
+                    <p><t t-esc="widget['overall_project_cost']"/></p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Goal</b>
+                </td>
+                <td class="text-right">
+                    <p style="width: 400px;float: right;">
+                        <t t-esc="widget['project_goal']"/>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Start Date</b>
+                </td>
+                <td class="text-right">
+                    <p style="width: 400px;float: right;">
+                        <t t-esc="widget['project_start_date']"/>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>End Date</b>
+                </td>
+                <td class="text-right">
+                    <p style="width: 400px;float: right;">
+                        <t t-esc="widget['project_dead_line']"/>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Project Owner</b>
+                </td>
+                <td class="text-right">
+                    <p style="width: 400px;float: right;">
+                        <t t-esc="widget['project_owner_id'][1]"/>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Project Sponser</b>
+                </td>
+                <td class="text-right">
+                    <p style="width: 400px;float: right;">
+                        <t t-esc="widget['project_sponser_id'][1]"/>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Contract</b>
+                </td>
+                <td class="text-right">
+                    <p style="width: 400px;float: right;">
+                        <t t-esc="widget['contract_no']"/>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Priority</b>
+                </td>
+                <td class="text-right">
+                    <p style="width: 400px;float: right;">
+                        <t t-esc="widget['priority']"/>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </t>
+
+    <t t-name="issues_and_risk">
+        <div class="row" style="text-align:justify;" t-if="widget['issue_risk']">
+            <div class="col-xs-12 col-sm-12 col-lg-3">
+                <h4>Issues And Risk</h4>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-9">
+                <t t-esc="widget['issue_risk']"/>
+            </div>
+        </div>
+        <div class="row" style="margin-top:20px;text-align:justify;" t-if="widget['notes_action']">
+            <div class="col-xs-12 col-sm-12 col-lg-3">
+                <h4>Notes and Action</h4>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-9">
+                <t t-esc="widget['notes_action']"/>
+            </div>
+        </div>
+        <div class="row" style="margin-top:20px;text-align:justify;" t-if="widget['solution']">
+            <div class="col-xs-12 col-sm-12 col-lg-3">
+                <h4>Solutions</h4>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-9">
+                <t t-esc="widget['solution']"/>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="timesheet_records">
+        <table class="table table-borderless table-striped table-earning">
+            <tr>
+                <td>
+                    <h4>Project Manager</h4>
+                </td>
+                <td>
+                    <div/>
+                </td>
+            </tr>
+            <t t-if="ts_recs">
+                <t t-foreach="ts_recs" t-as="t">
+                    <t t-if="t['pm_name']">
+                        <tr>
+                            <td>
+                                <p><t t-esc="t['pm_name']"/></p>
+                            </td>
+                            <td>
+                                <p><t t-esc="t['pm_unit_amount']"/> hour</p>
+                            </td>
+                        </tr>
+                    </t>
+                </t>
+            </t>
+            <tr>
+                <td>
+                    <h4>Team Members</h4>
+                </td>
+                <td>
+                    <div/>
+                </td>
+            </tr>
+            <t t-if="ts_recs">
+                <t t-foreach="ts_recs" t-as="t">
+                    <t t-if="t['name']">
+                        <tr>
+                            <td>
+                                <p><t t-esc="t['name']"/></p>
+                            </td>
+                            <td>
+                                <p><t t-esc="t['unit_amount']"/> hour</p>
+                            </td>
+                        </tr>
+                    </t>
+                </t>
+            </t>
+        </table>
+    </t>
+
+    <t t-name="cost_chart">
+        <ul>
+            <li><p>Overall Budget   <b><t t-esc="cost_recs['overall_project_cost']"/></b></p></li>
+            <li>
+                        <span class="dot dot--blue"></span>
+                <span>Used Cost <b> <t t-esc="cost_recs['overall_project_cost'] * cost_recs['total_cost'] / 100"/></b></span>
+            </li>
+            <li>
+                <t t-set="not_used" t-value="cost_recs['overall_project_cost'] - (cost_recs['overall_project_cost'] * cost_recs['total_cost']) / 100"/>
+            <t t-if="not_used &lt; 0">
+                <t t-set="not_used" t-value="0"/>
+            </t>
+            <span class="dot dot--red"></span>
+                <span>Not Used Cost <b><t t-esc="not_used"/></b></span>
+            </li>
+        </ul>
+    </t>
+
+    <t t-name="project_stage_progress">
+        <table class="table table-borderless table-striped">
+            <thead>
+                <tr>
+                    <th>Stage Name</th>
+                    <th>Stage Percentage</th>
+                    <th>Completed Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="stage_data" t-as="data">
+                    <tr t-if="data != 0">
+                        <td><p t-esc="stage_data[data][0]"/></td>
+                        <td><span t-esc="stage_data[data][1]"/>%</td>
+                        <td><span t-esc="stage_data[data][2]"/>%</td>
+                    </tr>
+                </t>
+                <t t-foreach="stage_data" t-as="data">
+                    <tr t-if="data == 0" class="dashboard_progress_total">
+                        <td><span t-esc="stage_data[data][0]"/></td>
+                        <td><span t-esc="stage_data[data][1]"/>%</td>
+                        <td><span t-esc="stage_data[data][2]"/>%</td>
+                    </tr>
+                </t>
+            </tbody>
+        </table>
+    </t>
+</template>

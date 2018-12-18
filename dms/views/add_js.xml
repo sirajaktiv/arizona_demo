@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="add_hirarchical_js" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/dms/static/lib/jquery-splitter/css/jquery.splitter.css" />
+            <link rel="stylesheet" href="/dms/static/src/less/dms_views_documents.less" />
+            <link rel="stylesheet" href="/dms/static/lib/jsTree/themes/default/style.min.css" />
+            <link rel="stylesheet" href="/dms/static/src/css/dms.css" />
+            <script type="text/javascript" src="/dms/static/lib/jsTree/jstree.min.js" />
+            <script type="text/javascript" src="/dms/static/src/js/mimetype.js" />
+            <script type="text/javascript" src="/dms/static/src/js/tree_hirarchical.js"/>
+            <script type="text/javascript" src="/dms/static/src/js/widgets/dms_widgets_size.js" />
+            <script type="text/javascript" src="/dms/static/src/js/utils/preview_helper.js"/>
+            <script type="text/javascript" src="/dms/static/lib/jquery-splitter/js/jquery.splitter.js" />
+        </xpath>
+    </template>
+</odoo>

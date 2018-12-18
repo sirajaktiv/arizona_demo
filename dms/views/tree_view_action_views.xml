@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_tree_view_demo_js" model="ir.actions.client">
+        <field name="name">Directory Hierarchy</field>
+        <field name="tag">dms.tree_view_directory</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem id="dms_directory" 
+        name="My Directories" 
+        parent="dms_document_management" 
+        action="action_tree_view_demo_js" 
+        sequence="1"/>
+</odoo>

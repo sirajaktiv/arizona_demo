@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_display_po_order" model="ir.actions.act_window">
+        <field name="name">Purchase Order</field>
+        <field name="res_model">purchase.order</field>
+        <field name="domain">[('task_id', '=', active_id)]</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="purchase.purchase_order_tree"/>
+    </record>
+
+    <record id="view_task_form2_inherit_ipt_pm" model="ir.ui.view">
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="%(action_display_po_order)d" type="action" class="oe_stat_button" icon="fa-shopping-cart">Purchase</button>
+            </xpath>
+            <xpath expr="//button[@name='action_assign_to_me']" position="after">
+                <button name="action_create_purchase_order" string="Create PO" type="object" class="oe_highlight"/>
+            </xpath>
+            <field name="user_id" position="after">
+                <field name="task_completion_date"/>
+                <field name="effective_hours" string="Total Spent Hours"/>
+            </field>
+            <field name="date_deadline" position="attributes">
+                <attribute name="required">"1"</attribute>
+            </field>
+            <field name="description" position="replace">
+                <field name="task_description" placeholder="Add a task description"/>
+            </field>
+            <field name="date_deadline" position="after">
+                <field name="planned_hours" widget="float_time"/>
+            </field>
+            <field name="tag_ids" position="after">
+                <field name="task_progress" string="Progress Percentage"/>
+                <field name="member_status" groups="project.group_project_user"/>
+                <field name="task_stage_progress" invisible="1"/>
+            </field>
+            <field name="project_id" position="replace"/>
+            <field name="date_assign" position="before">
+                <field name="project_id" domain="[('active', '=', True)]"/>
+            </field>
+            <field name="date_last_stage_update" position="after">
+                <field name="vendor_partner_id"/>                
+            </field>
+        </field>
+    </record>
+
+    <record id="view_task_tree2_inherited_itp_pm" model="ir.ui.view">
+        <field name="name">project.task.tree</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_tree2_inherited"/>
+        <field name="arch" type="xml">
+            <field name="progress" position="replace">
+                <field name="task_stage_progress" sum="Stage Progress"/>
+            </field>
+            <field name="project_id" position="replace"/>
+            <field name="stage_id" position="replace"/>
+        </field>
+    </record>
+
+    <record id="task_gantt_view" model="ir.ui.view">
+        <field name="model">project.task</field>
+        <field name="arch" type="xml">
+            <gantt date_start="date_start" date_stop="date_end" progress="progress" string="Tasks" default_group_by="project_id">
+            </gantt>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_task_form2_inherited_itp">
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+        <field name="arch" type="xml">
+            <field name="planned_hours" position="replace"/>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_task_kanban_inherited_itp">
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//progressbar[@field='kanban_state']" position="attributes">
+                <attribute name="colors">{"done": "success", "blocked": "danger", "progress": "warning"}</attribute>
+            </xpath>
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="on_create"/>
+            </xpath>
+            <xpath expr="//kanban/field[@name='legend_normal']" position="after">
+                <field name="legend_inprogress"/>
+            </xpath>
+            <xpath expr="//small[hasclass('o_kanban_record_subtitle')]" position="inside">
+                <br/>
+                <field name="task_progress" widget="progressbar"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project.act_project_project_2_project_task_all" model="ir.actions.act_window">
+        <field name="view_mode">tree,form,kanban,calendar,pivot,graph</field>
+    </record>
+</odoo>

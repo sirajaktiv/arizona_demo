@@ -1,0 +1,94 @@
+.row_css{
+    margin: 10px;
+    height:auto !important;
+    overflow-x: hidden;
+}
+.dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+}
+.dot--red {
+    background: #1c9607;
+}
+.dot--blue {
+    background: #ba1a24;
+}
+.dot--not_start{
+    background :#E4E4E4;
+}
+.dot--lately{
+    background: #4CAF50;
+}
+.border_css{
+    border: 1px solid;
+    border-collapse: separate;
+    border-radius: 20px;
+    background:#fff;
+    margin: 20px;
+}
+.chart-note-wrap{
+
+    text-align: center;
+}
+.chart-note-wrap ul{
+
+    list-style: none;
+    margin: 0;
+    -webkit-padding-start: 0 !important;
+    -webkit-margin-before: 0 !important;
+}
+
+.chart-note-wrap ul li {
+    margin-right: 10px;
+}
+.chart-note-wrap ul li, .chart-note-wrap ul li p{
+
+    display: inline;
+}
+.panel-body{
+    display: block;
+    margin: 0 auto;
+
+}
+#percent-chart{
+    height: 200px !important;
+}
+.panel{
+    box-shadow: none;
+    margin: 0;
+}
+.row_css h2{
+
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;    
+}
+.row_css table td{
+    vertical-align: middle !important;
+}
+.row_css table td p{
+    margin: 0;
+}
+.col-lg-6.col-md-6.col-sm-12.col-xs-12.cost_cls{
+    padding-bottom: 45px;
+}
+@media screen and (max-width: 1199px) {
+    .cls_resources{
+        margin-top: 50px;
+    }
+}
+@media screen and (max-width: 991px) {
+    .cost_cls{
+        margin-top: 50px;    
+    }
+}
+.o_status_yellow{
+    background-color: #e3e56e;
+}
+.dashboard_progress_total{
+    font-weight: bold;
+}

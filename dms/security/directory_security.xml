@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.rule" id="dms_directory_user_rule">
+        <field name="name">Project: User</field>
+        <field name="model_id" ref="model_dms_directory"></field>
+        <field name="groups" eval="[(4,ref('project.group_project_user'))]"></field>
+        <field name="domain_force">[('project_id.user_id', '=', user.id)]</field>
+        <field eval="1" name="perm_read"></field>
+        <field eval="1" name="perm_write"></field>
+        <field eval="0" name="perm_unlink"></field>
+        <field eval="0" name="perm_create"></field>
+    </record>
+
+    <record model="ir.rule" id="dms_directory_normal_user_rule">
+        <field name="name">Project: Normal User</field>
+        <field name="model_id" ref="model_dms_directory"></field>
+        <field name="groups" eval="[(4,ref('project.group_project_user'))]"></field>
+        <field name="domain_force">[('project_id.user_ids','in', [user.id])]</field>
+        <field eval="1" name="perm_read"></field>
+        <field eval="0" name="perm_write"></field>
+        <field eval="0" name="perm_unlink"></field>
+        <field eval="0" name="perm_create"></field>
+    </record>
+
+    <record model="ir.rule" id="dms_directory_manager_user_rule">
+        <field name="name">Project: Manager</field>
+        <field name="model_id" ref="model_dms_directory"></field>
+        <field name="groups" eval="[(4,ref('project.group_project_manager'))]"></field>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field eval="1" name="perm_read"></field>
+        <field eval="1" name="perm_write"></field>
+        <field eval="1" name="perm_unlink"></field>
+        <field eval="1" name="perm_create"></field>
+    </record>
+
+    <record model="ir.rule" id="dms_multi_company_rule">
+        <field name="name">DMS Multi Company</field>
+        <field name="model_id" ref="model_dms_directory"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+</odoo>

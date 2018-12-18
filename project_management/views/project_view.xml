@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <function model="project.project" name="_deactivate_no_update_project_rules" />
+
+    <record id="project.act_project_project_2_project_task_all" model="ir.actions.act_window">
+        <field name="domain">[('parent_id', '=', False)]</field>
+    </record>
+
+    <!-- Added new fields in project form view -->
+    <record id="project_cost_inherit_edit_project" model="ir.ui.view">
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="replace">
+                <field name="project_goal"/>
+            </field>
+            <field name="privacy_visibility" position="replace"/>
+            <xpath expr="//page[@name='settings']/group[1]" position="after">
+                <group>
+                    <group>
+                        <field name="contract_no" widget="phone"/>
+                        <field name="project_sponser_id"/>
+                        <field name="project_owner_id"/>
+                    </group>
+
+                    <group>
+                        <field name="user_id" required="1"/>
+                        <field name="project_start_date"/>
+                        <field name="project_dead_line" class="oe_inline" required="1" groups="project.group_project_user"/>
+                    </group>
+                </group>
+
+                <group>
+                    <group>
+                        <field name="overall_project_cost" string="Project Cost" class="oe_inline" groups="project.group_project_manager" required="1"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="priority"/>                        
+                    </group>
+                </group>
+                <group>
+                    <field name="notes_action" string="Note &amp; Action"/>
+                    <field name="issue_risk" string="Issues &amp; Risk"/>
+                    <field name="solution" string="Solutions"/>
+                </group>
+            </xpath>
+            <xpath expr="//page[@name='settings']" position="after">
+                <page name="team" string="Team">
+                    <group>
+                        <field name="user_id" required="1"/>                        
+                    </group>
+                    <separator string="Team Members"/>
+                    <field name="user_ids">
+                        <tree>
+                            <field name="name"/>
+                            <field name="lang"/>
+                            <field name="login"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//page[@name='emails']" position="after">
+                <page name="stages" string="Stages">
+                    <field name="stage_ids"/>
+                </page>
+                <page string="Settings">
+                    <group>
+                        <group>
+                            <field name="privacy_visibility" widget="radio"/>
+                            <label for="alias_name" string="Email Alias"/>
+                            <div name="alias_def">
+                                <field name="alias_id" class="oe_read_only oe_inline" string="Email Alias" required="0"/>
+                                <div class="oe_edit_only oe_inline" name="edit_alias" style="display: inline;" >
+                                    <field name="alias_name" class="oe_inline"/>@<field name="alias_domain" class="oe_inline" readonly="1"/>
+                                </div>
+                            </div>
+                            <field name="alias_contact" class="oe_inline oe_edit_only" string="Accept Emails From"/>
+                        </group>
+                        <group string="Configuration" groups="base.group_no_one">
+                            <field name="sequence" groups="base.group_no_one"/>
+                            <separator string="Time Scheduling" groups="base.group_no_one"/>
+                            <field name="resource_calendar_id" groups="base.group_no_one"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//page[@name='emails']" position="replace"/>
+            <xpath expr="//page[@name='settings']" position="attributes">
+                <attribute name="string">Dashboard</attribute>
+            </xpath>
+            <xpath expr="//group[@name='misc']" position="replace"/>
+        </field>
+    </record>
+
+    <record id="act_project_project_2_project_task" model="ir.actions.act_window">
+        <field name="name">Tasks</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">kanban,tree,form,calendar</field>
+        <field name="context">{
+                'group_by': 'stage_id',
+                'search_default_project_id': [active_id],
+                'default_project_id': active_id,
+            }</field>
+    </record>
+
+    <!-- Display Total Expenses of project in detail -->
+    <record id="act_project_project_2_project_cost" model="ir.actions.act_window">
+        <field name="name">Project Cost</field>
+        <field name="res_model">project.cost</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="project_cost_form_view"/>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Display Total Timesheet Cost of project in detail  -->
+    <record id="act_project_2_project_task_progress" model="ir.actions.act_window">
+        <field name="name">Project Cost</field>
+        <field name="res_model">project.progress</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="project_task_progress_form_view"/>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Inherits Project Dashboard Kanban View -->
+    <record id="view_project_kanban" model="ir.ui.view">
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="on_create"/>
+            </xpath>
+            <xpath expr="//kanban/field[@name='name']" position="after">
+                <field name="progress_total"/>
+                <field name="total_cost"/>
+            </xpath>
+            <xpath expr="//t[@t-name='kanban-box']" position="replace">
+                <t t-name="kanban-box">
+                    <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click o_has_icon">
+                        <div class="o_project_kanban_main">
+                            <div class="o_kanban_card_content">
+                                <div class="o_kanban_primary_left">
+                                    <div class="o_primary">
+                                        <span><t t-esc="record.name.value"/></span>
+                                        <span t-if="record.partner_id.value">
+                                            <strong><t t-esc="record.partner_id.value"/></strong>
+                                        </span>
+                                    </div>
+                                    <div t-if="record.alias_name.value and record.alias_domain.value">
+                                        <span><i class="fa fa-envelope"></i> <t t-esc="record.alias_id.value"/></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_kanban_card_manage_pane" groups="project.group_project_manager, project.group_project_user">
+                                <div class="o_kanban_card_manage_section o_kanban_manage_reports">
+                                    <div>
+                                        <a type="edit">Settings</a>
+                                    </div>
+                                    <div>
+                                        <a name="%(project.action_project_task_user_tree_filtered)d" type="action" groups="project.group_project_user">Tasks</a>
+                                    </div>
+                                </div>
+                                <div class="o_project_kanban_colorpicker">
+                                    <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                </div>
+                            </div>
+                            <a class="o_kanban_manage_toggle_button o_left" href="#" groups="project.group_project_manager, project.group_project_user"><i class="fa fa-ellipsis-v" /></a>
+                            <span class="o_right"><field name="is_favorite" widget="boolean_favorite" nolabel="1" force_save="1" /></span>
+                        </div>
+
+
+                        <div class="o_project_kanban_boxes">
+                            <a class="o_project_kanban_box" name="%(project.act_project_project_2_project_task_all)d" type="action">
+                                <div>
+                                    <span class="o_value"><t t-esc="record.task_count.value"/></span>
+                                    <span class="o_label"><t t-esc="record.label_tasks.value"/></span>
+                                    <button t-if="record.task_needaction_count.raw_value" class="btn-link o_needaction" name="%(project.act_project_project_2_project_task_all)d" type="action" context="{'search_default_message_needaction': 1}">
+                                        <t t-esc="record.task_needaction_count.raw_value"/>
+                                    </button>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <div class="o_project_kanban_boxes">
+                            <a class="o_project_kanban_box" name="%(act_project_project_2_project_task)d" type="action" groups="project.group_project_user">
+                                <div>
+                                    <span class="o_label">Kanban</span>
+                                </div>
+                            </a>
+                            <a class="o_project_kanban_box" name="%(project_to_dashboard_action)d" type="action" groups="project.group_project_manager">
+                                <div>
+                                    <span class="o_label">Dashboard</span>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Added two buttons to display related project's total cost and progress of task -->
+                        <div class="row" style="height:50px;">
+                            <field name="button_color" invisible="1"/>
+                            <t t-set="color_color" t-value="record.button_color.value"/>
+                            <div class="col-xs-6 text-center" style="background:#7D78AC;padding:0px;margin:0px;">
+                                <a name="%(act_project_2_project_task_progress)d" type="action">
+                                    <div>
+                                        <span class="i_value"><t t-esc="record.progress_total.value"/>%</span>.
+                                        <span class="i_label">Progress</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-xs-6 text-center" groups="project.group_project_manager" t-attf-style="background:#{color_color};padding:0px;margin:0px;">
+                                <a name="%(act_project_project_2_project_cost)d" type="action">
+                                    <div>
+                                        <span class="i_value"><field name="total_cost"/>%</span>
+                                        <span class="i_label">Cost</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </xpath>
+        </field>
+    </record>
+</odoo>

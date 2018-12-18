@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo> 
+    <record model="ir.rule" id="project_project_user_rule">
+        <field name="name">Project: User</field>
+        <field name="model_id" ref="project.model_project_project"></field>
+        <field name="groups" eval="[(4,ref('project.group_project_user'))]"></field>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field eval="1" name="perm_read"></field>
+        <field eval="1" name="perm_write"></field>
+        <field eval="0" name="perm_unlink"></field>
+        <field eval="0" name="perm_create"></field>
+    </record>
+
+     <record model="ir.rule" id="project_task_normal_user_rule">
+        <field name="name">Project Task: Normal User</field>
+        <field name="model_id" ref="project.model_project_task"></field>
+        <field name="groups" eval="[(4,ref('project.group_project_user'))]"></field>
+        <field name="domain_force">[('project_id.user_id', '=', user.id)]</field>
+        <field eval="1" name="perm_read"></field>
+        <field eval="1" name="perm_write"></field> 
+        <field eval="1" name="perm_unlink"></field>
+        <field eval="1" name="perm_create"></field>
+    </record>
+    
+    <record model="ir.rule" id="project_task_user_rule">
+        <field name="name">Project Task: User</field>
+        <field name="model_id" ref="project.model_project_task"></field>
+        <field name="groups" eval="[(4,ref('project.group_project_user'))]"></field>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field eval="1" name="perm_read"></field>
+        <field eval="1" name="perm_write"></field> 
+        <field eval="0" name="perm_unlink"></field>
+        <field eval="0" name="perm_create"></field>
+    </record>
+    
+    <record model="ir.rule" id="project_project_normal_user_rule">
+        <field name="name">Project: Normal User</field>
+        <field name="model_id" ref="project.model_project_project"></field>
+        <field name="groups" eval="[(4,ref('project.group_project_user'))]"></field>
+        <field name="domain_force">[('user_ids','in', [user.id])]</field>
+        <field eval="1" name="perm_read"></field>
+        <field eval="0" name="perm_write"></field>
+        <field eval="0" name="perm_unlink"></field>
+        <field eval="0" name="perm_create"></field>
+    </record>
+</odoo>

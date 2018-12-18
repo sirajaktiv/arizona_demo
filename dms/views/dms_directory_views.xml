@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="get_directories_action_window" model="ir.actions.act_window">
+        <field name="name">Directories</field>
+        <field name="res_model">dms.directory</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('parent_directory_id', '=', active_id)]</field>
+        <field name="context">{'default_parent_directory_id': active_id}</field>
+    </record>
+
+    <record id="dms_directory_form_view" model="ir.ui.view">
+        <field name="model">dms.directory</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box" groups="base.group_user">
+                        <button  class="oe_stat_button" type="action" icon="fa-folder-open"
+                            name="%(get_directories_action_window)d">
+                            <field string="Directories" name="total_child_directories" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <group>
+                        <field name="name" required="1"/>
+                        <field name="user_id" readonly="1"/>
+                        <field name="parent_directory_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="dms_directory_search_view" model="ir.ui.view">
+        <field name="model">dms.directory</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="dms_directory_tree_view" model="ir.ui.view">
+        <field name="model">dms.directory</field>
+        <field name="arch" type="xml">
+            <tree toolbar="True">
+                <field name="name"/>
+                <field name="parent_directory_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="dms_project_tags_form_view" model="ir.ui.view">
+        <field name="model">project.tags</field>
+        <field name="inherit_id" ref="project.project_tags_form_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="color"/>
+            </field>
+        </field>
+    </record>
+
+
+    <menuitem id="dms_documents" name="Documents"/>
+    <menuitem id="dms_document_management" 
+        name="Document Management" 
+        parent="dms_documents"/>
+    <menuitem id="dms_configuration" 
+        name="Configuration" 
+        parent="dms_documents"/>
+    <menuitem id="dms_tags" 
+        name="Tags" 
+        parent="dms_configuration" 
+        action="project.project_tags_action"/>
+</odoo>

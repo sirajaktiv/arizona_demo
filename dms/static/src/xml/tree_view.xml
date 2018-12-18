@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template id="tree_view_template" xml:space="preserve">
+    <t t-name="DocumentTreeView">
+        <div class="o_content">
+            <h2 style="color: #7c7bad;text-decoration: none;padding-left:10px">Directory Hierarchy</h2>
+            <div class="left" style="border-bottom:1px solid black;padding-bottom:10px;padding-left:10px">
+                <div class="buttons">
+                    <div class="list">
+                        <button accesskey="O" class="open btn btn-sm btn-primary" type="button">
+                        Open
+                        </button>
+                        <button accesskey="C" class="create_directory btn btn-sm btn-default" type="button">
+                        Create
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="o_content">
+                <div class="o_view_manager_content">
+                    <div class="oe_document_content">
+                        <div class="container-fluid oe_document_container">
+                            <div class="row oe_document_row">
+                                <div class="oe_document_col oe_document_col_tree">
+                                    <div class="oe_document_tree"/>
+                                </div>
+                                <div class="oe_document_col oe_document_col_preview">
+                                    <div class="oe_document_preview" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="dms.DocumentTreeViewDirectoryPreview">
+        <div class="o_preview_directory">
+            <div class="o_preview_directory_header">
+                <h3><t t-esc="directory.name"/></h3>
+            </div>
+            <div class="o_preview_directory_body">
+                <div class="col-sm-3 o_preview_directory_icon" align="center">
+                    <img src="/dms/static/src/img/folder.png" />
+                </div>
+                <div class=" col-sm-9">
+                    <table class="table o_preview_directory_table">
+                        <tbody>
+                             <tr>
+                               <td>Name:</td>
+                               <td><t t-esc="directory.name"/></td>
+                             </tr>
+                             <tr>
+                               <td>Directories:</td>
+                               <td><t t-esc="directory.directories"/></td>
+                             </tr>
+                             <tr>
+                               <td>Files:</td>
+                               <td><t t-esc="directory.files"/></td>
+                             </tr>
+                       </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="dms.DocumentTreeViewOptions">
+<!--         <button type="button" class="show_preview btn btn-default fa fa-file-o o_cp_switch_list "
+                data-toggle="tooltip" data-placement="bottom" title="Show Preview" />
+        <button type="button" class="hide_preview btn btn-default fa fa-ban o_cp_switch_list active"
+                data-toggle="tooltip" data-placement="bottom" title="Hide Preview" /> -->
+    </t>
+</template>

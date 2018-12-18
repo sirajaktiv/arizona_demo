@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="project_project_tree">
+            <field name="model">project.project</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="overall_project_cost"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="project_task_tree">
+            <field name="model">project.task</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="project_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="project_tree_view_action">
+            <field name="name">Project</field>
+            <field name="res_model">project.project</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('name','!=',False)]</field>
+            <field name="view_id" ref="project_project_tree"/>
+        </record>
+
+        <record model="ir.actions.act_window" id="project_task_tree_view_action">
+            <field name="name">Project</field>
+            <field name="res_model">project.task</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('name','!=',False)]</field>
+            <field name="view_id" ref="project_task_tree"/>
+        </record>
+
+        <record model="ir.ui.view" id="project_all_view_dashboard">
+            <field name="name">Session Dashboard Form</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Project Dashboard">
+                    <board style="2-1">
+                        <hpaned>
+                            <child1>
+                                <action string="Project" name="%(project_tree_view_action)d"/>
+                                <action string="Task" name="%(project_task_tree_view_action)d"/>
+                            </child1>
+                        </hpaned>
+                    </board>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_project_2_project_dashboard">
+            <field name="name">Project Dashboard</field>
+            <field name="res_model">board.board</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="project_all_view_dashboard"/>
+        </record>
+
+        <menuitem
+            name="Session Dashboard" parent="project.menu_main_pm"
+            action="act_project_2_project_dashboard"
+            sequence="50"
+            id="menu_board_session"/>
+    </data>
+</odoo>

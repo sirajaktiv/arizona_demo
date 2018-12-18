@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="project_to_dashboard_action" model="ir.actions.client">
+        <field name="name">Project Dashboard</field>
+        <field name="tag">itp_project_dashboard</field>
+        <field name="target">main</field>
+    </record>
+
+    <template id="add_dashboard_js" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/project_management/static/src/less/project_dashboard.less"/>
+            <link rel="stylesheet" href="/project_management/static/src/css/project_dashboard.css"/>
+            <script type="text/javascript" src="/project_management/static/lib/charts/Chart.min.js"/>
+            <script type="text/javascript" src="/project_management/static/lib/charts/Chart.bundle.min.js"/>
+            <script type="text/javascript" src="/project_management/static/src/js/project_dashboard.js"/>
+            <script type="text/javascript" src="/project_management/static/src/js/state_selection_widget.js"/>
+        </xpath>
+    </template>
+</odoo>
