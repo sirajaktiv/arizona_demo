@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="custom_message_form_view" model="ir.ui.view">
+        <field name="model">custom.pop.message</field>
+        <field name="arch" type="xml">
+            <form>
+                <div>
+                    <field name="name"/>
+                </div>
+                <footer>
+                    <button string="OK" class="btn-primary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

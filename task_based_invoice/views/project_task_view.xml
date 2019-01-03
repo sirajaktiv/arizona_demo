@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="project.act_project_project_2_project_task_all" model="ir.actions.act_window">
+        <field name="view_mode">tree,form,kanban,calendar,pivot,graph</field>
+        <field name="context">{
+                'search_default_Stage': 1,
+                'search_default_project_id': [active_id],
+                'default_project_id': active_id,
+            }</field>
+    </record>
+
+    <record id="view_task_form2" model="ir.ui.view">
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <field name="date_last_stage_update" position="after">
+                <field name="product_id"/>
+            </field>
+        </field>
+    </record>
+
+    <act_window name="Create Invoice"
+        res_model="invoice.task.rel"
+        src_model="project.task"
+        view_mode="form"
+        target="new"
+        key2="client_action_multi"
+        id="create_invoice_from_task"/>
+
+    <record id="action_account_invoice" model="ir.actions.act_window">
+        <field name="name">Invoices</field>
+        <field name="res_model">account.invoice</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('account.invoice_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('account.invoice_form')})]"/>
+        <field name="domain">[('state', 'not in', ['cancel']), ('task_id', '!=', False)]</field>
+    </record>
+
+    <menuitem name="Invoices" action="action_account_invoice" id="menu_action_account_invoice" parent="project.menu_project_management" sequence="30"/>
+</odoo>
