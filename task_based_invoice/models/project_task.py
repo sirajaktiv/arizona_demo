@@ -6,4 +6,5 @@ class ProjectTask(models.Model):
 
     product_id = fields.Many2one('product.product', string="Product",
                                  domain=[('type', '=', 'service')],
-                                 related="sale_line_id.product_id")
+                                 related="sale_line_id.product_id",
+                                 store=True)
